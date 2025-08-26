@@ -25,7 +25,7 @@ pip install miru_agent_sdk
 The full API of this library can be found in [api.md](api.md).
 
 ```python
-from miru_agent import MiruAgent
+from miru_agent_sdk import MiruAgent
 
 client = MiruAgent()
 
@@ -39,7 +39,7 @@ Simply import `AsyncMiruAgent` instead of `MiruAgent` and use `await` with each 
 
 ```python
 import asyncio
-from miru_agent import AsyncMiruAgent
+from miru_agent_sdk import AsyncMiruAgent
 
 client = AsyncMiruAgent()
 
@@ -69,8 +69,8 @@ Then you can enable it by instantiating the client with `http_client=DefaultAioH
 
 ```python
 import asyncio
-from miru_agent import DefaultAioHttpClient
-from miru_agent import AsyncMiruAgent
+from miru_agent_sdk import DefaultAioHttpClient
+from miru_agent_sdk import AsyncMiruAgent
 
 
 async def main() -> None:
@@ -95,27 +95,27 @@ Typed requests and responses provide autocomplete and documentation within your 
 
 ## Handling errors
 
-When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `miru_agent.APIConnectionError` is raised.
+When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `miru_agent_sdk.APIConnectionError` is raised.
 
 When the API returns a non-success status code (that is, 4xx or 5xx
-response), a subclass of `miru_agent.APIStatusError` is raised, containing `status_code` and `response` properties.
+response), a subclass of `miru_agent_sdk.APIStatusError` is raised, containing `status_code` and `response` properties.
 
-All errors inherit from `miru_agent.APIError`.
+All errors inherit from `miru_agent_sdk.APIError`.
 
 ```python
-import miru_agent
-from miru_agent import MiruAgent
+import miru_agent_sdk
+from miru_agent_sdk import MiruAgent
 
 client = MiruAgent()
 
 try:
     client.device.retrieve()
-except miru_agent.APIConnectionError as e:
+except miru_agent_sdk.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
-except miru_agent.RateLimitError as e:
+except miru_agent_sdk.RateLimitError as e:
     print("A 429 status code was received; we should back off a bit.")
-except miru_agent.APIStatusError as e:
+except miru_agent_sdk.APIStatusError as e:
     print("Another non-200-range status code was received")
     print(e.status_code)
     print(e.response)
@@ -143,7 +143,7 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from miru_agent import MiruAgent
+from miru_agent_sdk import MiruAgent
 
 # Configure the default for all requests:
 client = MiruAgent(
@@ -161,7 +161,7 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
 
 ```python
-from miru_agent import MiruAgent
+from miru_agent_sdk import MiruAgent
 
 # Configure the default for all requests:
 client = MiruAgent(
@@ -213,7 +213,7 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from miru_agent import MiruAgent
+from miru_agent_sdk import MiruAgent
 
 client = MiruAgent()
 response = client.device.with_raw_response.retrieve()
@@ -223,9 +223,9 @@ device = response.parse()  # get the object that `device.retrieve()` would have 
 print(device.id)
 ```
 
-These methods return an [`APIResponse`](https://github.com/miruml/python-agent-sdk/tree/main/src/miru_agent/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/miruml/python-agent-sdk/tree/main/src/miru_agent_sdk/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/miruml/python-agent-sdk/tree/main/src/miru_agent/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/miruml/python-agent-sdk/tree/main/src/miru_agent_sdk/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -287,7 +287,7 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 ```python
 import httpx
-from miru_agent import MiruAgent, DefaultHttpxClient
+from miru_agent_sdk import MiruAgent, DefaultHttpxClient
 
 client = MiruAgent(
     # Or use the `MIRU_AGENT_BASE_URL` env var
@@ -310,7 +310,7 @@ client.with_options(http_client=DefaultHttpxClient(...))
 By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
 
 ```py
-from miru_agent import MiruAgent
+from miru_agent_sdk import MiruAgent
 
 with MiruAgent() as client:
   # make requests here
@@ -338,8 +338,8 @@ If you've upgraded to the latest version but aren't seeing any new features you 
 You can determine the version that is being used at runtime with:
 
 ```py
-import miru_agent
-print(miru_agent.__version__)
+import miru_agent_sdk
+print(miru_agent_sdk.__version__)
 ```
 
 ## Requirements
