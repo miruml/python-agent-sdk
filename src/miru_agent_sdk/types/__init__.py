@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
+from .info_check_response import InfoCheckResponse as InfoCheckResponse
 from .device_sync_response import DeviceSyncResponse as DeviceSyncResponse
-from .health_check_response import HealthCheckResponse as HealthCheckResponse
+from .info_retrieve_response import InfoRetrieveResponse as InfoRetrieveResponse
 from .device_retrieve_response import DeviceRetrieveResponse as DeviceRetrieveResponse
-from .version_retrieve_response import VersionRetrieveResponse as VersionRetrieveResponse

@@ -2,9 +2,9 @@
 
 from .._models import BaseModel
 
-__all__ = ["HealthCheckResponse"]
+__all__ = ["InfoCheckResponse"]
 
 
-class HealthCheckResponse(BaseModel):
+class InfoCheckResponse(BaseModel):
     status: str
     """The status of the agent"""
