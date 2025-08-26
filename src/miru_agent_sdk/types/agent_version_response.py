@@ -2,10 +2,10 @@
 
 from .._models import BaseModel
 
-__all__ = ["VersionRetrieveResponse"]
+__all__ = ["AgentVersionResponse"]
 
 
-class VersionRetrieveResponse(BaseModel):
+class AgentVersionResponse(BaseModel):
     commit: str
     """The commit hash of the agent"""
 

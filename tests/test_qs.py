@@ -4,7 +4,7 @@ from urllib.parse import unquote
 
 import pytest
 
-from miru_agent._qs import Querystring, stringify
+from miru_agent_sdk._qs import Querystring, stringify
 
 
 def test_empty() -> None:

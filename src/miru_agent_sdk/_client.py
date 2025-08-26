@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Dict, Union, Mapping, cast
-from typing_extensions import Self, Literal, override
+from typing import Any, Union, Mapping
+from typing_extensions import Self, override
 
 import httpx
 
@@ -21,19 +21,16 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import device, health, version, example_error, config_instances
+from .resources import agent, device
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
-from ._exceptions import APIStatusError, MiruAgentError
+from ._exceptions import APIStatusError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.version import VersionResource, AsyncVersionResource
-from .resources.config_schemas import config_schemas
 
 __all__ = [
-    "ENVIRONMENTS",
     "Timeout",
     "Transport",
     "ProxiesTypes",
@@ -44,37 +41,21 @@ __all__ = [
     "AsyncClient",
 ]
 
-ENVIRONMENTS: Dict[str, str] = {
-    "production": "https://configs.dev.api.miruml.com/{audience}/{version}",
-    "environment_1": "https://configs.api.miruml.com/{audience}/{version}",
-}
-
 
 class MiruAgent(SyncAPIClient):
-    health: health.HealthResource
-    version: version.VersionResource
-    config_instances: config_instances.ConfigInstancesResource
-    config_schemas: config_schemas.ConfigSchemasResource
+    agent: agent.AgentResource
     device: device.DeviceResource
-    example_error: example_error.ExampleErrorResource
     with_raw_response: MiruAgentWithRawResponse
     with_streaming_response: MiruAgentWithStreamedResponse
 
     # client options
-    api_key: str
-    audience: str
     version: str
-
-    _environment: Literal["production", "environment_1"] | NotGiven
 
     def __init__(
         self,
         *,
-        api_key: str | None = None,
-        audience: str | None = None,
         version: str | None = None,
-        environment: Literal["production", "environment_1"] | NotGiven = NOT_GIVEN,
-        base_url: str | httpx.URL | None | NotGiven = NOT_GIVEN,
+        base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
@@ -95,52 +76,16 @@ class MiruAgent(SyncAPIClient):
     ) -> None:
         """Construct a new synchronous MiruAgent client instance.
 
-        This automatically infers the following arguments from their corresponding environment variables if they are not provided:
-        - `api_key` from `MIRU_AGENT_API_KEY`
-        - `audience` from `MIRU_AGENT_AUDIENCE`
-        - `version` from `MIRU_AGENT_VERSION`
+        This automatically infers the `version` argument from the `MIRU_AGENT_VERSION` environment variable if it is not provided.
         """
-        if api_key is None:
-            api_key = os.environ.get("MIRU_AGENT_API_KEY")
-        if api_key is None:
-            raise MiruAgentError(
-                "The api_key client option must be set either by passing api_key to the client or by setting the MIRU_AGENT_API_KEY environment variable"
-            )
-        self.api_key = api_key
-
-        if audience is None:
-            audience = os.environ.get("MIRU_AGENT_AUDIENCE") or "agent"
-        self.audience = audience
-
         if version is None:
             version = os.environ.get("MIRU_AGENT_VERSION") or "v1"
         self.version = version
 
-        self._environment = environment
-
-        base_url_env = os.environ.get("MIRU_AGENT_BASE_URL")
-        if is_given(base_url) and base_url is not None:
-            # cast required because mypy doesn't understand the type narrowing
-            base_url = cast("str | httpx.URL", base_url)  # pyright: ignore[reportUnnecessaryCast]
-        elif is_given(environment):
-            if base_url_env and base_url is not None:
-                raise ValueError(
-                    "Ambiguous URL; The `MIRU_AGENT_BASE_URL` env var and the `environment` argument are given. If you want to use the environment, you must pass base_url=None",
-                )
-
-            try:
-                base_url = ENVIRONMENTS[environment]
-            except KeyError as exc:
-                raise ValueError(f"Unknown environment: {environment}") from exc
-        elif base_url_env is not None:
-            base_url = base_url_env
-        else:
-            self._environment = environment = "production"
-
-            try:
-                base_url = ENVIRONMENTS[environment]
-            except KeyError as exc:
-                raise ValueError(f"Unknown environment: {environment}") from exc
+        if base_url is None:
+            base_url = os.environ.get("MIRU_AGENT_BASE_URL")
+        if base_url is None:
+            base_url = f"http://localhost:8080/v1"
 
         super().__init__(
             version=__version__,
@@ -153,12 +98,8 @@ class MiruAgent(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.health = health.HealthResource(self)
-        self.version = VersionResource(self)
-        self.config_instances = config_instances.ConfigInstancesResource(self)
-        self.config_schemas = config_schemas.ConfigSchemasResource(self)
+        self.agent = agent.AgentResource(self)
         self.device = device.DeviceResource(self)
-        self.example_error = example_error.ExampleErrorResource(self)
         self.with_raw_response = MiruAgentWithRawResponse(self)
         self.with_streaming_response = MiruAgentWithStreamedResponse(self)
 
@@ -166,12 +107,6 @@ class MiruAgent(SyncAPIClient):
     @override
     def qs(self) -> Querystring:
         return Querystring(array_format="comma")
-
-    @property
-    @override
-    def auth_headers(self) -> dict[str, str]:
-        api_key = self.api_key
-        return {"Authorization": f"Bearer {api_key}"}
 
     @property
     @override
@@ -185,10 +120,7 @@ class MiruAgent(SyncAPIClient):
     def copy(
         self,
         *,
-        api_key: str | None = None,
-        audience: str | None = None,
         version: str | None = None,
-        environment: Literal["production", "environment_1"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.Client | None = None,
@@ -222,11 +154,8 @@ class MiruAgent(SyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            api_key=api_key or self.api_key,
-            audience=audience or self.audience,
             version=version or self.version,
             base_url=base_url or self.base_url,
-            environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
             max_retries=max_retries if is_given(max_retries) else self.max_retries,
@@ -274,30 +203,19 @@ class MiruAgent(SyncAPIClient):
 
 
 class AsyncMiruAgent(AsyncAPIClient):
-    health: health.AsyncHealthResource
-    version: version.AsyncVersionResource
-    config_instances: config_instances.AsyncConfigInstancesResource
-    config_schemas: config_schemas.AsyncConfigSchemasResource
+    agent: agent.AsyncAgentResource
     device: device.AsyncDeviceResource
-    example_error: example_error.AsyncExampleErrorResource
     with_raw_response: AsyncMiruAgentWithRawResponse
     with_streaming_response: AsyncMiruAgentWithStreamedResponse
 
     # client options
-    api_key: str
-    audience: str
     version: str
-
-    _environment: Literal["production", "environment_1"] | NotGiven
 
     def __init__(
         self,
         *,
-        api_key: str | None = None,
-        audience: str | None = None,
         version: str | None = None,
-        environment: Literal["production", "environment_1"] | NotGiven = NOT_GIVEN,
-        base_url: str | httpx.URL | None | NotGiven = NOT_GIVEN,
+        base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
@@ -318,52 +236,16 @@ class AsyncMiruAgent(AsyncAPIClient):
     ) -> None:
         """Construct a new async AsyncMiruAgent client instance.
 
-        This automatically infers the following arguments from their corresponding environment variables if they are not provided:
-        - `api_key` from `MIRU_AGENT_API_KEY`
-        - `audience` from `MIRU_AGENT_AUDIENCE`
-        - `version` from `MIRU_AGENT_VERSION`
+        This automatically infers the `version` argument from the `MIRU_AGENT_VERSION` environment variable if it is not provided.
         """
-        if api_key is None:
-            api_key = os.environ.get("MIRU_AGENT_API_KEY")
-        if api_key is None:
-            raise MiruAgentError(
-                "The api_key client option must be set either by passing api_key to the client or by setting the MIRU_AGENT_API_KEY environment variable"
-            )
-        self.api_key = api_key
-
-        if audience is None:
-            audience = os.environ.get("MIRU_AGENT_AUDIENCE") or "agent"
-        self.audience = audience
-
         if version is None:
             version = os.environ.get("MIRU_AGENT_VERSION") or "v1"
         self.version = version
 
-        self._environment = environment
-
-        base_url_env = os.environ.get("MIRU_AGENT_BASE_URL")
-        if is_given(base_url) and base_url is not None:
-            # cast required because mypy doesn't understand the type narrowing
-            base_url = cast("str | httpx.URL", base_url)  # pyright: ignore[reportUnnecessaryCast]
-        elif is_given(environment):
-            if base_url_env and base_url is not None:
-                raise ValueError(
-                    "Ambiguous URL; The `MIRU_AGENT_BASE_URL` env var and the `environment` argument are given. If you want to use the environment, you must pass base_url=None",
-                )
-
-            try:
-                base_url = ENVIRONMENTS[environment]
-            except KeyError as exc:
-                raise ValueError(f"Unknown environment: {environment}") from exc
-        elif base_url_env is not None:
-            base_url = base_url_env
-        else:
-            self._environment = environment = "production"
-
-            try:
-                base_url = ENVIRONMENTS[environment]
-            except KeyError as exc:
-                raise ValueError(f"Unknown environment: {environment}") from exc
+        if base_url is None:
+            base_url = os.environ.get("MIRU_AGENT_BASE_URL")
+        if base_url is None:
+            base_url = f"http://localhost:8080/v1"
 
         super().__init__(
             version=__version__,
@@ -376,12 +258,8 @@ class AsyncMiruAgent(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.health = health.AsyncHealthResource(self)
-        self.version = AsyncVersionResource(self)
-        self.config_instances = config_instances.AsyncConfigInstancesResource(self)
-        self.config_schemas = config_schemas.AsyncConfigSchemasResource(self)
+        self.agent = agent.AsyncAgentResource(self)
         self.device = device.AsyncDeviceResource(self)
-        self.example_error = example_error.AsyncExampleErrorResource(self)
         self.with_raw_response = AsyncMiruAgentWithRawResponse(self)
         self.with_streaming_response = AsyncMiruAgentWithStreamedResponse(self)
 
@@ -389,12 +267,6 @@ class AsyncMiruAgent(AsyncAPIClient):
     @override
     def qs(self) -> Querystring:
         return Querystring(array_format="comma")
-
-    @property
-    @override
-    def auth_headers(self) -> dict[str, str]:
-        api_key = self.api_key
-        return {"Authorization": f"Bearer {api_key}"}
 
     @property
     @override
@@ -408,10 +280,7 @@ class AsyncMiruAgent(AsyncAPIClient):
     def copy(
         self,
         *,
-        api_key: str | None = None,
-        audience: str | None = None,
         version: str | None = None,
-        environment: Literal["production", "environment_1"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.AsyncClient | None = None,
@@ -445,11 +314,8 @@ class AsyncMiruAgent(AsyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            api_key=api_key or self.api_key,
-            audience=audience or self.audience,
             version=version or self.version,
             base_url=base_url or self.base_url,
-            environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
             max_retries=max_retries if is_given(max_retries) else self.max_retries,
@@ -498,44 +364,26 @@ class AsyncMiruAgent(AsyncAPIClient):
 
 class MiruAgentWithRawResponse:
     def __init__(self, client: MiruAgent) -> None:
-        self.health = health.HealthResourceWithRawResponse(client.health)
-        self.version = version.VersionResourceWithRawResponse(client.version)
-        self.config_instances = config_instances.ConfigInstancesResourceWithRawResponse(client.config_instances)
-        self.config_schemas = config_schemas.ConfigSchemasResourceWithRawResponse(client.config_schemas)
+        self.agent = agent.AgentResourceWithRawResponse(client.agent)
         self.device = device.DeviceResourceWithRawResponse(client.device)
-        self.example_error = example_error.ExampleErrorResourceWithRawResponse(client.example_error)
 
 
 class AsyncMiruAgentWithRawResponse:
     def __init__(self, client: AsyncMiruAgent) -> None:
-        self.health = health.AsyncHealthResourceWithRawResponse(client.health)
-        self.version = version.AsyncVersionResourceWithRawResponse(client.version)
-        self.config_instances = config_instances.AsyncConfigInstancesResourceWithRawResponse(client.config_instances)
-        self.config_schemas = config_schemas.AsyncConfigSchemasResourceWithRawResponse(client.config_schemas)
+        self.agent = agent.AsyncAgentResourceWithRawResponse(client.agent)
         self.device = device.AsyncDeviceResourceWithRawResponse(client.device)
-        self.example_error = example_error.AsyncExampleErrorResourceWithRawResponse(client.example_error)
 
 
 class MiruAgentWithStreamedResponse:
     def __init__(self, client: MiruAgent) -> None:
-        self.health = health.HealthResourceWithStreamingResponse(client.health)
-        self.version = version.VersionResourceWithStreamingResponse(client.version)
-        self.config_instances = config_instances.ConfigInstancesResourceWithStreamingResponse(client.config_instances)
-        self.config_schemas = config_schemas.ConfigSchemasResourceWithStreamingResponse(client.config_schemas)
+        self.agent = agent.AgentResourceWithStreamingResponse(client.agent)
         self.device = device.DeviceResourceWithStreamingResponse(client.device)
-        self.example_error = example_error.ExampleErrorResourceWithStreamingResponse(client.example_error)
 
 
 class AsyncMiruAgentWithStreamedResponse:
     def __init__(self, client: AsyncMiruAgent) -> None:
-        self.health = health.AsyncHealthResourceWithStreamingResponse(client.health)
-        self.version = version.AsyncVersionResourceWithStreamingResponse(client.version)
-        self.config_instances = config_instances.AsyncConfigInstancesResourceWithStreamingResponse(
-            client.config_instances
-        )
-        self.config_schemas = config_schemas.AsyncConfigSchemasResourceWithStreamingResponse(client.config_schemas)
+        self.agent = agent.AsyncAgentResourceWithStreamingResponse(client.agent)
         self.device = device.AsyncDeviceResourceWithStreamingResponse(client.device)
-        self.example_error = example_error.AsyncExampleErrorResourceWithStreamingResponse(client.example_error)
 
 
 Client = MiruAgent
