@@ -674,20 +674,20 @@ class TestMiruAgent:
     @mock.patch("miru_agent._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: MiruAgent) -> None:
-        respx_mock.get("/health").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.get("/device").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            client.health.with_streaming_response.check().__enter__()
+            client.device.with_streaming_response.retrieve().__enter__()
 
         assert _get_open_connections(self.client) == 0
 
     @mock.patch("miru_agent._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: MiruAgent) -> None:
-        respx_mock.get("/health").mock(return_value=httpx.Response(500))
+        respx_mock.get("/device").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            client.health.with_streaming_response.check().__enter__()
+            client.device.with_streaming_response.retrieve().__enter__()
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -714,9 +714,9 @@ class TestMiruAgent:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/health").mock(side_effect=retry_handler)
+        respx_mock.get("/device").mock(side_effect=retry_handler)
 
-        response = client.health.with_raw_response.check()
+        response = client.device.with_raw_response.retrieve()
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -738,9 +738,9 @@ class TestMiruAgent:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/health").mock(side_effect=retry_handler)
+        respx_mock.get("/device").mock(side_effect=retry_handler)
 
-        response = client.health.with_raw_response.check(extra_headers={"x-stainless-retry-count": Omit()})
+        response = client.device.with_raw_response.retrieve(extra_headers={"x-stainless-retry-count": Omit()})
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
@@ -761,9 +761,9 @@ class TestMiruAgent:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/health").mock(side_effect=retry_handler)
+        respx_mock.get("/device").mock(side_effect=retry_handler)
 
-        response = client.health.with_raw_response.check(extra_headers={"x-stainless-retry-count": "42"})
+        response = client.device.with_raw_response.retrieve(extra_headers={"x-stainless-retry-count": "42"})
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
@@ -1444,10 +1444,10 @@ class TestAsyncMiruAgent:
     async def test_retrying_timeout_errors_doesnt_leak(
         self, respx_mock: MockRouter, async_client: AsyncMiruAgent
     ) -> None:
-        respx_mock.get("/health").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.get("/device").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await async_client.health.with_streaming_response.check().__aenter__()
+            await async_client.device.with_streaming_response.retrieve().__aenter__()
 
         assert _get_open_connections(self.client) == 0
 
@@ -1456,10 +1456,10 @@ class TestAsyncMiruAgent:
     async def test_retrying_status_errors_doesnt_leak(
         self, respx_mock: MockRouter, async_client: AsyncMiruAgent
     ) -> None:
-        respx_mock.get("/health").mock(return_value=httpx.Response(500))
+        respx_mock.get("/device").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await async_client.health.with_streaming_response.check().__aenter__()
+            await async_client.device.with_streaming_response.retrieve().__aenter__()
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -1487,9 +1487,9 @@ class TestAsyncMiruAgent:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/health").mock(side_effect=retry_handler)
+        respx_mock.get("/device").mock(side_effect=retry_handler)
 
-        response = await client.health.with_raw_response.check()
+        response = await client.device.with_raw_response.retrieve()
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1512,9 +1512,9 @@ class TestAsyncMiruAgent:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/health").mock(side_effect=retry_handler)
+        respx_mock.get("/device").mock(side_effect=retry_handler)
 
-        response = await client.health.with_raw_response.check(extra_headers={"x-stainless-retry-count": Omit()})
+        response = await client.device.with_raw_response.retrieve(extra_headers={"x-stainless-retry-count": Omit()})
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
@@ -1536,9 +1536,9 @@ class TestAsyncMiruAgent:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/health").mock(side_effect=retry_handler)
+        respx_mock.get("/device").mock(side_effect=retry_handler)
 
-        response = await client.health.with_raw_response.check(extra_headers={"x-stainless-retry-count": "42"})
+        response = await client.device.with_raw_response.retrieve(extra_headers={"x-stainless-retry-count": "42"})
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
