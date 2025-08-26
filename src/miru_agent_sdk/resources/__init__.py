@@ -1,12 +1,12 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .info import (
-    InfoResource,
-    AsyncInfoResource,
-    InfoResourceWithRawResponse,
-    AsyncInfoResourceWithRawResponse,
-    InfoResourceWithStreamingResponse,
-    AsyncInfoResourceWithStreamingResponse,
+from .agent import (
+    AgentResource,
+    AsyncAgentResource,
+    AgentResourceWithRawResponse,
+    AsyncAgentResourceWithRawResponse,
+    AgentResourceWithStreamingResponse,
+    AsyncAgentResourceWithStreamingResponse,
 )
 from .device import (
     DeviceResource,
@@ -18,12 +18,12 @@ from .device import (
 )
 
 __all__ = [
-    "InfoResource",
-    "AsyncInfoResource",
-    "InfoResourceWithRawResponse",
-    "AsyncInfoResourceWithRawResponse",
-    "InfoResourceWithStreamingResponse",
-    "AsyncInfoResourceWithStreamingResponse",
+    "AgentResource",
+    "AsyncAgentResource",
+    "AgentResourceWithRawResponse",
+    "AsyncAgentResourceWithRawResponse",
+    "AgentResourceWithStreamingResponse",
+    "AsyncAgentResourceWithStreamingResponse",
     "DeviceResource",
     "AsyncDeviceResource",
     "DeviceResourceWithRawResponse",

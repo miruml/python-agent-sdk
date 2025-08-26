@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import info, device
+from .resources import agent, device
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError
 from ._base_client import (
@@ -43,7 +43,7 @@ __all__ = [
 
 
 class MiruAgent(SyncAPIClient):
-    info: info.InfoResource
+    agent: agent.AgentResource
     device: device.DeviceResource
     with_raw_response: MiruAgentWithRawResponse
     with_streaming_response: MiruAgentWithStreamedResponse
@@ -98,7 +98,7 @@ class MiruAgent(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.info = info.InfoResource(self)
+        self.agent = agent.AgentResource(self)
         self.device = device.DeviceResource(self)
         self.with_raw_response = MiruAgentWithRawResponse(self)
         self.with_streaming_response = MiruAgentWithStreamedResponse(self)
@@ -203,7 +203,7 @@ class MiruAgent(SyncAPIClient):
 
 
 class AsyncMiruAgent(AsyncAPIClient):
-    info: info.AsyncInfoResource
+    agent: agent.AsyncAgentResource
     device: device.AsyncDeviceResource
     with_raw_response: AsyncMiruAgentWithRawResponse
     with_streaming_response: AsyncMiruAgentWithStreamedResponse
@@ -258,7 +258,7 @@ class AsyncMiruAgent(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.info = info.AsyncInfoResource(self)
+        self.agent = agent.AsyncAgentResource(self)
         self.device = device.AsyncDeviceResource(self)
         self.with_raw_response = AsyncMiruAgentWithRawResponse(self)
         self.with_streaming_response = AsyncMiruAgentWithStreamedResponse(self)
@@ -364,25 +364,25 @@ class AsyncMiruAgent(AsyncAPIClient):
 
 class MiruAgentWithRawResponse:
     def __init__(self, client: MiruAgent) -> None:
-        self.info = info.InfoResourceWithRawResponse(client.info)
+        self.agent = agent.AgentResourceWithRawResponse(client.agent)
         self.device = device.DeviceResourceWithRawResponse(client.device)
 
 
 class AsyncMiruAgentWithRawResponse:
     def __init__(self, client: AsyncMiruAgent) -> None:
-        self.info = info.AsyncInfoResourceWithRawResponse(client.info)
+        self.agent = agent.AsyncAgentResourceWithRawResponse(client.agent)
         self.device = device.AsyncDeviceResourceWithRawResponse(client.device)
 
 
 class MiruAgentWithStreamedResponse:
     def __init__(self, client: MiruAgent) -> None:
-        self.info = info.InfoResourceWithStreamingResponse(client.info)
+        self.agent = agent.AgentResourceWithStreamingResponse(client.agent)
         self.device = device.DeviceResourceWithStreamingResponse(client.device)
 
 
 class AsyncMiruAgentWithStreamedResponse:
     def __init__(self, client: AsyncMiruAgent) -> None:
-        self.info = info.AsyncInfoResourceWithStreamingResponse(client.info)
+        self.agent = agent.AsyncAgentResourceWithStreamingResponse(client.agent)
         self.device = device.AsyncDeviceResourceWithStreamingResponse(client.device)
 
 
