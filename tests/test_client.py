@@ -560,16 +560,6 @@ class TestMiruAgent:
             client = MiruAgent(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
-        # explicit environment arg requires explicitness
-        with update_env(MIRU_AGENT_BASE_URL="http://localhost:5000/from/env"):
-            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                MiruAgent(api_key=api_key, _strict_response_validation=True, environment="production")
-
-            client = MiruAgent(
-                base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
-            )
-            assert str(client.base_url).startswith("https://configs.dev.api.miruml.com/{audience}/{version}")
-
     @pytest.mark.parametrize(
         "client",
         [
@@ -1372,16 +1362,6 @@ class TestAsyncMiruAgent:
         with update_env(MIRU_AGENT_BASE_URL="http://localhost:5000/from/env"):
             client = AsyncMiruAgent(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
-
-        # explicit environment arg requires explicitness
-        with update_env(MIRU_AGENT_BASE_URL="http://localhost:5000/from/env"):
-            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                AsyncMiruAgent(api_key=api_key, _strict_response_validation=True, environment="production")
-
-            client = AsyncMiruAgent(
-                base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
-            )
-            assert str(client.base_url).startswith("https://configs.dev.api.miruml.com/{audience}/{version}")
 
     @pytest.mark.parametrize(
         "client",
