@@ -10,7 +10,7 @@ import httpx
 import pytest
 from pytest_asyncio import is_async_test
 
-from miru_agent_sdk import MiruAgent, AsyncMiruAgent, DefaultAioHttpClient
+from miru_agent_sdk import Miru, AsyncMiru, DefaultAioHttpClient
 from miru_agent_sdk._utils import is_dict
 
 if TYPE_CHECKING:
@@ -47,17 +47,17 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 @pytest.fixture(scope="session")
-def client(request: FixtureRequest) -> Iterator[MiruAgent]:
+def client(request: FixtureRequest) -> Iterator[Miru]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    with MiruAgent(base_url=base_url, _strict_response_validation=strict) as client:
+    with Miru(base_url=base_url, _strict_response_validation=strict) as client:
         yield client
 
 
 @pytest.fixture(scope="session")
-async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncMiruAgent]:
+async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncMiru]:
     param = getattr(request, "param", True)
 
     # defaults
@@ -76,5 +76,5 @@ async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncMiruAgent]
     else:
         raise TypeError(f"Unexpected fixture parameter type {type(param)}, expected bool or dict")
 
-    async with AsyncMiruAgent(base_url=base_url, _strict_response_validation=strict, http_client=http_client) as client:
+    async with AsyncMiru(base_url=base_url, _strict_response_validation=strict, http_client=http_client) as client:
         yield client

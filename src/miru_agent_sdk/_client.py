@@ -30,23 +30,14 @@ from ._base_client import (
     AsyncAPIClient,
 )
 
-__all__ = [
-    "Timeout",
-    "Transport",
-    "ProxiesTypes",
-    "RequestOptions",
-    "MiruAgent",
-    "AsyncMiruAgent",
-    "Client",
-    "AsyncClient",
-]
+__all__ = ["Timeout", "Transport", "ProxiesTypes", "RequestOptions", "Miru", "AsyncMiru", "Client", "AsyncClient"]
 
 
-class MiruAgent(SyncAPIClient):
+class Miru(SyncAPIClient):
     agent: agent.AgentResource
     device: device.DeviceResource
-    with_raw_response: MiruAgentWithRawResponse
-    with_streaming_response: MiruAgentWithStreamedResponse
+    with_raw_response: MiruWithRawResponse
+    with_streaming_response: MiruWithStreamedResponse
 
     # client options
     version: str
@@ -74,7 +65,7 @@ class MiruAgent(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous MiruAgent client instance.
+        """Construct a new synchronous Miru client instance.
 
         This automatically infers the `version` argument from the `MIRU_AGENT_VERSION` environment variable if it is not provided.
         """
@@ -83,7 +74,7 @@ class MiruAgent(SyncAPIClient):
         self.version = version
 
         if base_url is None:
-            base_url = os.environ.get("MIRU_AGENT_BASE_URL")
+            base_url = os.environ.get("MIRU_BASE_URL")
         if base_url is None:
             base_url = f"http://localhost:8080/v1"
 
@@ -100,8 +91,8 @@ class MiruAgent(SyncAPIClient):
 
         self.agent = agent.AgentResource(self)
         self.device = device.DeviceResource(self)
-        self.with_raw_response = MiruAgentWithRawResponse(self)
-        self.with_streaming_response = MiruAgentWithStreamedResponse(self)
+        self.with_raw_response = MiruWithRawResponse(self)
+        self.with_streaming_response = MiruWithStreamedResponse(self)
 
     @property
     @override
@@ -202,11 +193,11 @@ class MiruAgent(SyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class AsyncMiruAgent(AsyncAPIClient):
+class AsyncMiru(AsyncAPIClient):
     agent: agent.AsyncAgentResource
     device: device.AsyncDeviceResource
-    with_raw_response: AsyncMiruAgentWithRawResponse
-    with_streaming_response: AsyncMiruAgentWithStreamedResponse
+    with_raw_response: AsyncMiruWithRawResponse
+    with_streaming_response: AsyncMiruWithStreamedResponse
 
     # client options
     version: str
@@ -234,7 +225,7 @@ class AsyncMiruAgent(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async AsyncMiruAgent client instance.
+        """Construct a new async AsyncMiru client instance.
 
         This automatically infers the `version` argument from the `MIRU_AGENT_VERSION` environment variable if it is not provided.
         """
@@ -243,7 +234,7 @@ class AsyncMiruAgent(AsyncAPIClient):
         self.version = version
 
         if base_url is None:
-            base_url = os.environ.get("MIRU_AGENT_BASE_URL")
+            base_url = os.environ.get("MIRU_BASE_URL")
         if base_url is None:
             base_url = f"http://localhost:8080/v1"
 
@@ -260,8 +251,8 @@ class AsyncMiruAgent(AsyncAPIClient):
 
         self.agent = agent.AsyncAgentResource(self)
         self.device = device.AsyncDeviceResource(self)
-        self.with_raw_response = AsyncMiruAgentWithRawResponse(self)
-        self.with_streaming_response = AsyncMiruAgentWithStreamedResponse(self)
+        self.with_raw_response = AsyncMiruWithRawResponse(self)
+        self.with_streaming_response = AsyncMiruWithStreamedResponse(self)
 
     @property
     @override
@@ -362,30 +353,30 @@ class AsyncMiruAgent(AsyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class MiruAgentWithRawResponse:
-    def __init__(self, client: MiruAgent) -> None:
+class MiruWithRawResponse:
+    def __init__(self, client: Miru) -> None:
         self.agent = agent.AgentResourceWithRawResponse(client.agent)
         self.device = device.DeviceResourceWithRawResponse(client.device)
 
 
-class AsyncMiruAgentWithRawResponse:
-    def __init__(self, client: AsyncMiruAgent) -> None:
+class AsyncMiruWithRawResponse:
+    def __init__(self, client: AsyncMiru) -> None:
         self.agent = agent.AsyncAgentResourceWithRawResponse(client.agent)
         self.device = device.AsyncDeviceResourceWithRawResponse(client.device)
 
 
-class MiruAgentWithStreamedResponse:
-    def __init__(self, client: MiruAgent) -> None:
+class MiruWithStreamedResponse:
+    def __init__(self, client: Miru) -> None:
         self.agent = agent.AgentResourceWithStreamingResponse(client.agent)
         self.device = device.DeviceResourceWithStreamingResponse(client.device)
 
 
-class AsyncMiruAgentWithStreamedResponse:
-    def __init__(self, client: AsyncMiruAgent) -> None:
+class AsyncMiruWithStreamedResponse:
+    def __init__(self, client: AsyncMiru) -> None:
         self.agent = agent.AsyncAgentResourceWithStreamingResponse(client.agent)
         self.device = device.AsyncDeviceResourceWithStreamingResponse(client.device)
 
 
-Client = MiruAgent
+Client = Miru
 
-AsyncClient = AsyncMiruAgent
+AsyncClient = AsyncMiru

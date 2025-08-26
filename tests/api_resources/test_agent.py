@@ -8,7 +8,7 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from miru_agent_sdk import MiruAgent, AsyncMiruAgent
+from miru_agent_sdk import Miru, AsyncMiru
 from miru_agent_sdk.types import AgentHealthResponse, AgentVersionResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -19,13 +19,13 @@ class TestAgent:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_health(self, client: MiruAgent) -> None:
+    def test_method_health(self, client: Miru) -> None:
         agent = client.agent.health()
         assert_matches_type(AgentHealthResponse, agent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_health(self, client: MiruAgent) -> None:
+    def test_raw_response_health(self, client: Miru) -> None:
         response = client.agent.with_raw_response.health()
 
         assert response.is_closed is True
@@ -35,7 +35,7 @@ class TestAgent:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_health(self, client: MiruAgent) -> None:
+    def test_streaming_response_health(self, client: Miru) -> None:
         with client.agent.with_streaming_response.health() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -47,13 +47,13 @@ class TestAgent:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_version(self, client: MiruAgent) -> None:
+    def test_method_version(self, client: Miru) -> None:
         agent = client.agent.version()
         assert_matches_type(AgentVersionResponse, agent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_version(self, client: MiruAgent) -> None:
+    def test_raw_response_version(self, client: Miru) -> None:
         response = client.agent.with_raw_response.version()
 
         assert response.is_closed is True
@@ -63,7 +63,7 @@ class TestAgent:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_version(self, client: MiruAgent) -> None:
+    def test_streaming_response_version(self, client: Miru) -> None:
         with client.agent.with_streaming_response.version() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -81,13 +81,13 @@ class TestAsyncAgent:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_health(self, async_client: AsyncMiruAgent) -> None:
+    async def test_method_health(self, async_client: AsyncMiru) -> None:
         agent = await async_client.agent.health()
         assert_matches_type(AgentHealthResponse, agent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_health(self, async_client: AsyncMiruAgent) -> None:
+    async def test_raw_response_health(self, async_client: AsyncMiru) -> None:
         response = await async_client.agent.with_raw_response.health()
 
         assert response.is_closed is True
@@ -97,7 +97,7 @@ class TestAsyncAgent:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_health(self, async_client: AsyncMiruAgent) -> None:
+    async def test_streaming_response_health(self, async_client: AsyncMiru) -> None:
         async with async_client.agent.with_streaming_response.health() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -109,13 +109,13 @@ class TestAsyncAgent:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_version(self, async_client: AsyncMiruAgent) -> None:
+    async def test_method_version(self, async_client: AsyncMiru) -> None:
         agent = await async_client.agent.version()
         assert_matches_type(AgentVersionResponse, agent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_version(self, async_client: AsyncMiruAgent) -> None:
+    async def test_raw_response_version(self, async_client: AsyncMiru) -> None:
         response = await async_client.agent.with_raw_response.version()
 
         assert response.is_closed is True
@@ -125,7 +125,7 @@ class TestAsyncAgent:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_version(self, async_client: AsyncMiruAgent) -> None:
+    async def test_streaming_response_version(self, async_client: AsyncMiru) -> None:
         async with async_client.agent.with_streaming_response.version() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

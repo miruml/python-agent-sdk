@@ -8,13 +8,13 @@ from typing import TYPE_CHECKING
 import anyio
 
 if TYPE_CHECKING:
-    from ._client import MiruAgent, AsyncMiruAgent
+    from ._client import Miru, AsyncMiru
 
 
 class SyncAPIResource:
-    _client: MiruAgent
+    _client: Miru
 
-    def __init__(self, client: MiruAgent) -> None:
+    def __init__(self, client: Miru) -> None:
         self._client = client
         self._get = client.get
         self._post = client.post
@@ -28,9 +28,9 @@ class SyncAPIResource:
 
 
 class AsyncAPIResource:
-    _client: AsyncMiruAgent
+    _client: AsyncMiru
 
-    def __init__(self, client: AsyncMiruAgent) -> None:
+    def __init__(self, client: AsyncMiru) -> None:
         self._client = client
         self._get = client.get
         self._post = client.post

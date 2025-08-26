@@ -18,11 +18,11 @@ __all__ = [
 ]
 
 
-class MiruAgentError(Exception):
+class MiruError(Exception):
     pass
 
 
-class APIError(MiruAgentError):
+class APIError(MiruError):
     message: str
     request: httpx.Request
 
