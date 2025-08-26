@@ -25,34 +25,23 @@ pip install miru_agent_sdk
 The full API of this library can be found in [api.md](api.md).
 
 ```python
-import os
 from miru_agent import MiruAgent
 
-client = MiruAgent(
-    api_key=os.environ.get("MIRU_AGENT_API_KEY"),  # This is the default and can be omitted
-)
+client = MiruAgent()
 
 response = client.health.check()
 print(response.status)
 ```
-
-While you can provide an `api_key` keyword argument,
-we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `MIRU_AGENT_API_KEY="My API Key"` to your `.env` file
-so that your API Key is not stored in source control.
 
 ## Async usage
 
 Simply import `AsyncMiruAgent` instead of `MiruAgent` and use `await` with each API call:
 
 ```python
-import os
 import asyncio
 from miru_agent import AsyncMiruAgent
 
-client = AsyncMiruAgent(
-    api_key=os.environ.get("MIRU_AGENT_API_KEY"),  # This is the default and can be omitted
-)
+client = AsyncMiruAgent()
 
 
 async def main() -> None:
@@ -86,7 +75,6 @@ from miru_agent import AsyncMiruAgent
 
 async def main() -> None:
     async with AsyncMiruAgent(
-        api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
         response = await client.health.check()
