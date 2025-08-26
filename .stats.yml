@@ -1,4 +1,4 @@
 configured_endpoints: 4
 openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/miru-ml%2Fmiru-agent-9a511ff49fa637a0c7e7edb952a195e7dda09bc5027e8ada8542e72a09eb6632.yml
 openapi_spec_hash: 4ae586adc27c0f2988ad8d9d44f6f897
-config_hash: d9055bc64157bdfb5fbcf7b7895bdcdd
+config_hash: 58d4738b441cce03c6794adedc0be389
