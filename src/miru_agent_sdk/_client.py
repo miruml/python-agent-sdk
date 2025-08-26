@@ -40,10 +40,12 @@ class Miru(SyncAPIClient):
     with_streaming_response: MiruWithStreamedResponse
 
     # client options
+    socket_path: str
 
     def __init__(
         self,
         *,
+        socket_path: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -63,7 +65,14 @@ class Miru(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous Miru client instance."""
+        """Construct a new synchronous Miru client instance.
+
+        This automatically infers the `socket_path` argument from the `MIRU_AGENT_SOCKET` environment variable if it is not provided.
+        """
+        if socket_path is None:
+            socket_path = os.environ.get("MIRU_AGENT_SOCKET") or "/run/miru/miru.sock"
+        self.socket_path = socket_path
+
         if base_url is None:
             base_url = os.environ.get("MIRU_BASE_URL")
         if base_url is None:
@@ -102,6 +111,7 @@ class Miru(SyncAPIClient):
     def copy(
         self,
         *,
+        socket_path: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.Client | None = None,
@@ -135,6 +145,7 @@ class Miru(SyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
+            socket_path=socket_path or self.socket_path,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -189,10 +200,12 @@ class AsyncMiru(AsyncAPIClient):
     with_streaming_response: AsyncMiruWithStreamedResponse
 
     # client options
+    socket_path: str
 
     def __init__(
         self,
         *,
+        socket_path: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -212,7 +225,14 @@ class AsyncMiru(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async AsyncMiru client instance."""
+        """Construct a new async AsyncMiru client instance.
+
+        This automatically infers the `socket_path` argument from the `MIRU_AGENT_SOCKET` environment variable if it is not provided.
+        """
+        if socket_path is None:
+            socket_path = os.environ.get("MIRU_AGENT_SOCKET") or "/run/miru/miru.sock"
+        self.socket_path = socket_path
+
         if base_url is None:
             base_url = os.environ.get("MIRU_BASE_URL")
         if base_url is None:
@@ -251,6 +271,7 @@ class AsyncMiru(AsyncAPIClient):
     def copy(
         self,
         *,
+        socket_path: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.AsyncClient | None = None,
@@ -284,6 +305,7 @@ class AsyncMiru(AsyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
+            socket_path=socket_path or self.socket_path,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
