@@ -10,15 +10,15 @@ import httpx
 import pytest
 from pytest_asyncio import is_async_test
 
-from miru_agent import MiruAgent, AsyncMiruAgent, DefaultAioHttpClient
-from miru_agent._utils import is_dict
+from miru_agent_sdk import MiruAgent, AsyncMiruAgent, DefaultAioHttpClient
+from miru_agent_sdk._utils import is_dict
 
 if TYPE_CHECKING:
     from _pytest.fixtures import FixtureRequest  # pyright: ignore[reportPrivateImportUsage]
 
 pytest.register_assert_rewrite("tests.utils")
 
-logging.getLogger("miru_agent").setLevel(logging.DEBUG)
+logging.getLogger("miru_agent_sdk").setLevel(logging.DEBUG)
 
 
 # automatically add `pytest.mark.asyncio()` to all of our async tests

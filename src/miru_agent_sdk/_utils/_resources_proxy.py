@@ -7,17 +7,17 @@ from ._proxy import LazyProxy
 
 
 class ResourcesProxy(LazyProxy[Any]):
-    """A proxy for the `miru_agent.resources` module.
+    """A proxy for the `miru_agent_sdk.resources` module.
 
-    This is used so that we can lazily import `miru_agent.resources` only when
-    needed *and* so that users can just import `miru_agent` and reference `miru_agent.resources`
+    This is used so that we can lazily import `miru_agent_sdk.resources` only when
+    needed *and* so that users can just import `miru_agent_sdk` and reference `miru_agent_sdk.resources`
     """
 
     @override
     def __load__(self) -> Any:
         import importlib
 
-        mod = importlib.import_module("miru_agent.resources")
+        mod = importlib.import_module("miru_agent_sdk.resources")
         return mod
 
 

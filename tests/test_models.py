@@ -7,9 +7,9 @@ import pytest
 import pydantic
 from pydantic import Field
 
-from miru_agent._utils import PropertyInfo
-from miru_agent._compat import PYDANTIC_V2, parse_obj, model_dump, model_json
-from miru_agent._models import BaseModel, construct_type
+from miru_agent_sdk._utils import PropertyInfo
+from miru_agent_sdk._compat import PYDANTIC_V2, parse_obj, model_dump, model_json
+from miru_agent_sdk._models import BaseModel, construct_type
 
 
 class BasicModel(BaseModel):
