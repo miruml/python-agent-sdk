@@ -14,33 +14,33 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.info_check_response import InfoCheckResponse
-from ..types.info_retrieve_response import InfoRetrieveResponse
+from ..types.agent_health_response import AgentHealthResponse
+from ..types.agent_version_response import AgentVersionResponse
 
-__all__ = ["InfoResource", "AsyncInfoResource"]
+__all__ = ["AgentResource", "AsyncAgentResource"]
 
 
-class InfoResource(SyncAPIResource):
+class AgentResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> InfoResourceWithRawResponse:
+    def with_raw_response(self) -> AgentResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/miruml/python-agent-sdk#accessing-raw-response-data-eg-headers
         """
-        return InfoResourceWithRawResponse(self)
+        return AgentResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> InfoResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AgentResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/miruml/python-agent-sdk#with_streaming_response
         """
-        return InfoResourceWithStreamingResponse(self)
+        return AgentResourceWithStreamingResponse(self)
 
-    def retrieve(
+    def health(
         self,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -49,57 +49,57 @@ class InfoResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InfoRetrieveResponse:
-        """Get the version of the agent"""
-        return self._get(
-            "/version",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=InfoRetrieveResponse,
-        )
-
-    def check(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InfoCheckResponse:
+    ) -> AgentHealthResponse:
         """Get the health of the agent"""
         return self._get(
             "/health",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=InfoCheckResponse,
+            cast_to=AgentHealthResponse,
+        )
+
+    def version(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> AgentVersionResponse:
+        """Get the version of the agent"""
+        return self._get(
+            "/version",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AgentVersionResponse,
         )
 
 
-class AsyncInfoResource(AsyncAPIResource):
+class AsyncAgentResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncInfoResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncAgentResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/miruml/python-agent-sdk#accessing-raw-response-data-eg-headers
         """
-        return AsyncInfoResourceWithRawResponse(self)
+        return AsyncAgentResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncInfoResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncAgentResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/miruml/python-agent-sdk#with_streaming_response
         """
-        return AsyncInfoResourceWithStreamingResponse(self)
+        return AsyncAgentResourceWithStreamingResponse(self)
 
-    async def retrieve(
+    async def health(
         self,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -108,79 +108,79 @@ class AsyncInfoResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InfoRetrieveResponse:
-        """Get the version of the agent"""
-        return await self._get(
-            "/version",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=InfoRetrieveResponse,
-        )
-
-    async def check(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InfoCheckResponse:
+    ) -> AgentHealthResponse:
         """Get the health of the agent"""
         return await self._get(
             "/health",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=InfoCheckResponse,
+            cast_to=AgentHealthResponse,
+        )
+
+    async def version(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> AgentVersionResponse:
+        """Get the version of the agent"""
+        return await self._get(
+            "/version",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AgentVersionResponse,
         )
 
 
-class InfoResourceWithRawResponse:
-    def __init__(self, info: InfoResource) -> None:
-        self._info = info
+class AgentResourceWithRawResponse:
+    def __init__(self, agent: AgentResource) -> None:
+        self._agent = agent
 
-        self.retrieve = to_raw_response_wrapper(
-            info.retrieve,
+        self.health = to_raw_response_wrapper(
+            agent.health,
         )
-        self.check = to_raw_response_wrapper(
-            info.check,
-        )
-
-
-class AsyncInfoResourceWithRawResponse:
-    def __init__(self, info: AsyncInfoResource) -> None:
-        self._info = info
-
-        self.retrieve = async_to_raw_response_wrapper(
-            info.retrieve,
-        )
-        self.check = async_to_raw_response_wrapper(
-            info.check,
+        self.version = to_raw_response_wrapper(
+            agent.version,
         )
 
 
-class InfoResourceWithStreamingResponse:
-    def __init__(self, info: InfoResource) -> None:
-        self._info = info
+class AsyncAgentResourceWithRawResponse:
+    def __init__(self, agent: AsyncAgentResource) -> None:
+        self._agent = agent
 
-        self.retrieve = to_streamed_response_wrapper(
-            info.retrieve,
+        self.health = async_to_raw_response_wrapper(
+            agent.health,
         )
-        self.check = to_streamed_response_wrapper(
-            info.check,
+        self.version = async_to_raw_response_wrapper(
+            agent.version,
         )
 
 
-class AsyncInfoResourceWithStreamingResponse:
-    def __init__(self, info: AsyncInfoResource) -> None:
-        self._info = info
+class AgentResourceWithStreamingResponse:
+    def __init__(self, agent: AgentResource) -> None:
+        self._agent = agent
 
-        self.retrieve = async_to_streamed_response_wrapper(
-            info.retrieve,
+        self.health = to_streamed_response_wrapper(
+            agent.health,
         )
-        self.check = async_to_streamed_response_wrapper(
-            info.check,
+        self.version = to_streamed_response_wrapper(
+            agent.version,
+        )
+
+
+class AsyncAgentResourceWithStreamingResponse:
+    def __init__(self, agent: AsyncAgentResource) -> None:
+        self._agent = agent
+
+        self.health = async_to_streamed_response_wrapper(
+            agent.health,
+        )
+        self.version = async_to_streamed_response_wrapper(
+            agent.version,
         )

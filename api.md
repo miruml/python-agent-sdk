@@ -1,15 +1,15 @@
-# Info
+# Agent
 
 Types:
 
 ```python
-from miru_agent_sdk.types import InfoRetrieveResponse, InfoCheckResponse
+from miru_agent_sdk.types import AgentHealthResponse, AgentVersionResponse
 ```
 
 Methods:
 
-- <code title="get /version">client.info.<a href="./src/miru_agent_sdk/resources/info.py">retrieve</a>() -> <a href="./src/miru_agent_sdk/types/info_retrieve_response.py">InfoRetrieveResponse</a></code>
-- <code title="get /health">client.info.<a href="./src/miru_agent_sdk/resources/info.py">check</a>() -> <a href="./src/miru_agent_sdk/types/info_check_response.py">InfoCheckResponse</a></code>
+- <code title="get /health">client.agent.<a href="./src/miru_agent_sdk/resources/agent.py">health</a>() -> <a href="./src/miru_agent_sdk/types/agent_health_response.py">AgentHealthResponse</a></code>
+- <code title="get /version">client.agent.<a href="./src/miru_agent_sdk/resources/agent.py">version</a>() -> <a href="./src/miru_agent_sdk/types/agent_version_response.py">AgentVersionResponse</a></code>
 
 # Device
 
