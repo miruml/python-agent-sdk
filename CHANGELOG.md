@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.2 (2025-08-26)
+
+Full Changelog: [v0.0.1...v0.0.2](https://github.com/miruml/python-agent-sdk/compare/v0.0.1...v0.0.2)
+
+### Features
+
+* adjust client to connect over the unix socket ([2e820b2](https://github.com/miruml/python-agent-sdk/commit/2e820b215ae5aff5546eb746e55e96c0e70cae6e))
+* **api:** update via SDK Studio ([3531015](https://github.com/miruml/python-agent-sdk/commit/353101533aff094a902eabf9f543341f86e5b2b8))
+* **api:** update via SDK Studio ([599a293](https://github.com/miruml/python-agent-sdk/commit/599a293911f28f1e8d39f4e46f1c838b637a1535))
+* **api:** update via SDK Studio ([6df3e72](https://github.com/miruml/python-agent-sdk/commit/6df3e720d9b152339b2ba1b36a52dcf24a04ba7e))
+* **api:** update via SDK Studio ([c8b85e4](https://github.com/miruml/python-agent-sdk/commit/c8b85e465b83ff4d971533cec98d9e80224a9b38))
+
 ## 0.0.1 (2025-08-26)
 
 Full Changelog: [v0.1.0...v0.0.1](https://github.com/miruml/python-agent-sdk/compare/v0.1.0...v0.0.1)

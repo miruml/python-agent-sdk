@@ -1,11 +1,11 @@
 [project]
 name = "miru_agent_sdk"
-version = "0.0.1"
-description = "The official Python library for the miru-agent API"
+version = "0.0.2"
+description = "The official Python library for the miru API"
 dynamic = ["readme"]
 license = "MIT"
 authors = [
-{ name = "Miru Agent", email = "ben@miruml.com" },
+{ name = "Miru", email = "ben@miruml.com" },
 ]
 dependencies = [
     "httpx>=0.23.0, <1",
