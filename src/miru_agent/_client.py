@@ -29,6 +29,7 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from .resources.version import VersionResource, AsyncVersionResource
 
 __all__ = [
     "Timeout",
@@ -50,10 +51,12 @@ class MiruAgent(SyncAPIClient):
     with_streaming_response: MiruAgentWithStreamedResponse
 
     # client options
+    version: str
 
     def __init__(
         self,
         *,
+        version: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -73,7 +76,14 @@ class MiruAgent(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous MiruAgent client instance."""
+        """Construct a new synchronous MiruAgent client instance.
+
+        This automatically infers the `version` argument from the `MIRU_AGENT_VERSION` environment variable if it is not provided.
+        """
+        if version is None:
+            version = os.environ.get("MIRU_AGENT_VERSION") or "v1"
+        self.version = version
+
         if base_url is None:
             base_url = os.environ.get("MIRU_AGENT_BASE_URL")
         if base_url is None:
@@ -91,7 +101,7 @@ class MiruAgent(SyncAPIClient):
         )
 
         self.health = health.HealthResource(self)
-        self.version = version.VersionResource(self)
+        self.version = VersionResource(self)
         self.device = device.DeviceResource(self)
         self.with_raw_response = MiruAgentWithRawResponse(self)
         self.with_streaming_response = MiruAgentWithStreamedResponse(self)
@@ -113,6 +123,7 @@ class MiruAgent(SyncAPIClient):
     def copy(
         self,
         *,
+        version: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.Client | None = None,
@@ -146,6 +157,7 @@ class MiruAgent(SyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
+            version=version or self.version,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -201,10 +213,12 @@ class AsyncMiruAgent(AsyncAPIClient):
     with_streaming_response: AsyncMiruAgentWithStreamedResponse
 
     # client options
+    version: str
 
     def __init__(
         self,
         *,
+        version: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -224,7 +238,14 @@ class AsyncMiruAgent(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async AsyncMiruAgent client instance."""
+        """Construct a new async AsyncMiruAgent client instance.
+
+        This automatically infers the `version` argument from the `MIRU_AGENT_VERSION` environment variable if it is not provided.
+        """
+        if version is None:
+            version = os.environ.get("MIRU_AGENT_VERSION") or "v1"
+        self.version = version
+
         if base_url is None:
             base_url = os.environ.get("MIRU_AGENT_BASE_URL")
         if base_url is None:
@@ -242,7 +263,7 @@ class AsyncMiruAgent(AsyncAPIClient):
         )
 
         self.health = health.AsyncHealthResource(self)
-        self.version = version.AsyncVersionResource(self)
+        self.version = AsyncVersionResource(self)
         self.device = device.AsyncDeviceResource(self)
         self.with_raw_response = AsyncMiruAgentWithRawResponse(self)
         self.with_streaming_response = AsyncMiruAgentWithStreamedResponse(self)
@@ -264,6 +285,7 @@ class AsyncMiruAgent(AsyncAPIClient):
     def copy(
         self,
         *,
+        version: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.AsyncClient | None = None,
@@ -297,6 +319,7 @@ class AsyncMiruAgent(AsyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
+            version=version or self.version,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
