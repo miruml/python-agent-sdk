@@ -40,12 +40,10 @@ class Miru(SyncAPIClient):
     with_streaming_response: MiruWithStreamedResponse
 
     # client options
-    version: str
 
     def __init__(
         self,
         *,
-        version: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -65,18 +63,11 @@ class Miru(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous Miru client instance.
-
-        This automatically infers the `version` argument from the `MIRU_AGENT_VERSION` environment variable if it is not provided.
-        """
-        if version is None:
-            version = os.environ.get("MIRU_AGENT_VERSION") or "v1"
-        self.version = version
-
+        """Construct a new synchronous Miru client instance."""
         if base_url is None:
             base_url = os.environ.get("MIRU_BASE_URL")
         if base_url is None:
-            base_url = f"http://localhost"
+            base_url = f"http://localhost/v1"
 
         super().__init__(
             version=__version__,
@@ -111,7 +102,6 @@ class Miru(SyncAPIClient):
     def copy(
         self,
         *,
-        version: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.Client | None = None,
@@ -145,7 +135,6 @@ class Miru(SyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            version=version or self.version,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -200,12 +189,10 @@ class AsyncMiru(AsyncAPIClient):
     with_streaming_response: AsyncMiruWithStreamedResponse
 
     # client options
-    version: str
 
     def __init__(
         self,
         *,
-        version: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -225,18 +212,11 @@ class AsyncMiru(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async AsyncMiru client instance.
-
-        This automatically infers the `version` argument from the `MIRU_AGENT_VERSION` environment variable if it is not provided.
-        """
-        if version is None:
-            version = os.environ.get("MIRU_AGENT_VERSION") or "v1"
-        self.version = version
-
+        """Construct a new async AsyncMiru client instance."""
         if base_url is None:
             base_url = os.environ.get("MIRU_BASE_URL")
         if base_url is None:
-            base_url = f"http://localhost"
+            base_url = f"http://localhost/v1"
 
         super().__init__(
             version=__version__,
@@ -271,7 +251,6 @@ class AsyncMiru(AsyncAPIClient):
     def copy(
         self,
         *,
-        version: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.AsyncClient | None = None,
@@ -305,7 +284,6 @@ class AsyncMiru(AsyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            version=version or self.version,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
