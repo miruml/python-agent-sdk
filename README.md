@@ -1,7 +1,7 @@
 # Miru Agent Python API library
 
 <!-- prettier-ignore -->
-[![PyPI version](https://img.shields.io/pypi/v/miru_agent.svg?label=pypi%20(stable))](https://pypi.org/project/miru_agent/)
+[![PyPI version](https://img.shields.io/pypi/v/miru_agent_sdk.svg?label=pypi%20(stable))](https://pypi.org/project/miru_agent_sdk/)
 
 The Miru Agent Python library provides convenient access to the Miru Agent REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
@@ -11,13 +11,13 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.miruml.com](https://docs.miruml.com). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
 ```sh
 # install from PyPI
-pip install miru_agent
+pip install miru_agent_sdk
 ```
 
 ## Usage
@@ -30,8 +30,6 @@ from miru_agent import MiruAgent
 
 client = MiruAgent(
     api_key=os.environ.get("MIRU_AGENT_API_KEY"),  # This is the default and can be omitted
-    # defaults to "production".
-    environment="environment_1",
 )
 
 response = client.health.check()
@@ -54,8 +52,6 @@ from miru_agent import AsyncMiruAgent
 
 client = AsyncMiruAgent(
     api_key=os.environ.get("MIRU_AGENT_API_KEY"),  # This is the default and can be omitted
-    # defaults to "production".
-    environment="environment_1",
 )
 
 
@@ -77,7 +73,7 @@ You can enable this by installing `aiohttp`:
 
 ```sh
 # install from PyPI
-pip install miru_agent[aiohttp]
+pip install miru_agent_sdk[aiohttp]
 ```
 
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
