@@ -80,6 +80,7 @@ class Miru(SyncAPIClient):
 
         super().__init__(
             version=__version__,
+            socket_path=socket_path,
             base_url=base_url,
             max_retries=max_retries,
             timeout=timeout,
@@ -240,6 +241,7 @@ class AsyncMiru(AsyncAPIClient):
 
         super().__init__(
             version=__version__,
+            socket_path=socket_path,
             base_url=base_url,
             max_retries=max_retries,
             timeout=timeout,

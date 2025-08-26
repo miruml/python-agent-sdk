@@ -823,6 +823,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         self,
         *,
         version: str,
+        socket_path: str,
         base_url: str | URL,
         max_retries: int = DEFAULT_MAX_RETRIES,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
@@ -860,6 +861,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
             _strict_response_validation=_strict_response_validation,
         )
         self._client = http_client or SyncHttpxClientWrapper(
+            transport=httpx.HTTPTransport(uds=socket_path),
             base_url=base_url,
             # cast to a valid type because mypy doesn't understand our type narrowing
             timeout=cast(Timeout, timeout),
@@ -1353,6 +1355,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         self,
         *,
         version: str,
+        socket_path: str,
         base_url: str | URL,
         _strict_response_validation: bool,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -1390,6 +1393,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
             _strict_response_validation=_strict_response_validation,
         )
         self._client = http_client or AsyncHttpxClientWrapper(
+            transport=httpx.AsyncHTTPTransport(uds=socket_path),
             base_url=base_url,
             # cast to a valid type because mypy doesn't understand our type narrowing
             timeout=cast(Timeout, timeout),
