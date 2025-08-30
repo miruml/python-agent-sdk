@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.0.3 (2025-08-30)
+
+Full Changelog: [v0.0.2...v0.0.3](https://github.com/miruml/python-agent-sdk/compare/v0.0.2...v0.0.3)
+
+### Bug Fixes
+
+* avoid newer type syntax ([109c894](https://github.com/miruml/python-agent-sdk/commit/109c8946281a861d2ebc74ddd4656ae45c1714d7))
+
+
+### Chores
+
+* **internal:** add Sequence related utils ([e324172](https://github.com/miruml/python-agent-sdk/commit/e3241722ac3c30c92627710c8876327abba33deb))
+* **internal:** update pyright exclude list ([3e1a631](https://github.com/miruml/python-agent-sdk/commit/3e1a631c29d33f8e3af40665f12b7359af13c3b7))
+
 ## 0.0.2 (2025-08-26)
 
 Full Changelog: [v0.0.1...v0.0.2](https://github.com/miruml/python-agent-sdk/compare/v0.0.1...v0.0.2)
