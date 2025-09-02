@@ -12,10 +12,10 @@ class DeviceRetrieveResponse(BaseModel):
     id: str
     """ID of the device"""
 
-    connected_at: datetime
+    last_connected_at: datetime
     """Timestamp of the last successful connection event with the backend."""
 
-    disconnected_at: datetime
+    last_disconnected_at: datetime
     """Timestamp of the last successful disconnection event with the backend."""
 
     last_synced_at: datetime
