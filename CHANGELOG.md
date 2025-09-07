@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.1.0 (2025-09-07)
+
+Full Changelog: [v0.0.3...v0.1.0](https://github.com/miruml/python-agent-sdk/compare/v0.0.3...v0.1.0)
+
+### Features
+
+* improve future compat with pydantic v3 ([444c7f9](https://github.com/miruml/python-agent-sdk/commit/444c7f949ccab589b65961b79d037598021bdab7))
+* **types:** replace List[str] with SequenceNotStr in params ([add7f31](https://github.com/miruml/python-agent-sdk/commit/add7f31b88484389d19b64912956489da4e0806a))
+
+
+### Chores
+
+* **internal:** move mypy configurations to `pyproject.toml` file ([365a40e](https://github.com/miruml/python-agent-sdk/commit/365a40ea30efc39afde68fd4fce8901b1d7cd816))
+* **tests:** simplify `get_platform` test ([4e7d390](https://github.com/miruml/python-agent-sdk/commit/4e7d390d666eb01ab692453d26818270426a94a2))
+
+
+### Documentation
+
+* update api descriptions ([dab411a](https://github.com/miruml/python-agent-sdk/commit/dab411a1d109279cd3e34c084ecac6d0c9d5354c))
+
 ## 0.0.3 (2025-09-02)
 
 Full Changelog: [v0.0.2...v0.0.3](https://github.com/miruml/python-agent-sdk/compare/v0.0.2...v0.0.3)

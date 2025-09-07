@@ -50,7 +50,7 @@ class AgentResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AgentHealthResponse:
-        """Get the health of the agent"""
+        """Health"""
         return self._get(
             "/health",
             options=make_request_options(
@@ -69,7 +69,7 @@ class AgentResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AgentVersionResponse:
-        """Get the version of the agent"""
+        """Version"""
         return self._get(
             "/version",
             options=make_request_options(
@@ -109,7 +109,7 @@ class AsyncAgentResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AgentHealthResponse:
-        """Get the health of the agent"""
+        """Health"""
         return await self._get(
             "/health",
             options=make_request_options(
@@ -128,7 +128,7 @@ class AsyncAgentResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AgentVersionResponse:
-        """Get the version of the agent"""
+        """Version"""
         return await self._get(
             "/version",
             options=make_request_options(
