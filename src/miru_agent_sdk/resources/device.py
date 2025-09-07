@@ -50,7 +50,7 @@ class DeviceResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> DeviceRetrieveResponse:
-        """Get the device"""
+        """Get"""
         return self._get(
             "/device",
             options=make_request_options(
@@ -69,7 +69,7 @@ class DeviceResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> DeviceSyncResponse:
-        """Sync the device"""
+        """Sync"""
         return self._post(
             "/device/sync",
             options=make_request_options(
@@ -109,7 +109,7 @@ class AsyncDeviceResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> DeviceRetrieveResponse:
-        """Get the device"""
+        """Get"""
         return await self._get(
             "/device",
             options=make_request_options(
@@ -128,7 +128,7 @@ class AsyncDeviceResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> DeviceSyncResponse:
-        """Sync the device"""
+        """Sync"""
         return await self._post(
             "/device/sync",
             options=make_request_options(

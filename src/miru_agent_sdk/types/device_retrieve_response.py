@@ -13,10 +13,10 @@ class DeviceRetrieveResponse(BaseModel):
     """ID of the device"""
 
     last_connected_at: datetime
-    """Timestamp of the last successful connection event with the backend."""
+    """Timestamp of the last successful connection event with the MQTT broker."""
 
     last_disconnected_at: datetime
-    """Timestamp of the last successful disconnection event with the backend."""
+    """Timestamp of the last successful disconnection event with the MQTT broker."""
 
     last_synced_at: datetime
     """Timestamp of when the device was last synced"""
