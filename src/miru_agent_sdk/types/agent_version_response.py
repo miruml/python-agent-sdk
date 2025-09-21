@@ -7,7 +7,7 @@ __all__ = ["AgentVersionResponse"]
 
 class AgentVersionResponse(BaseModel):
     commit: str
-    """The commit hash of the agent"""
+    """The commit hash of the agent."""
 
     version: str
-    """The version of the agent"""
+    """The version of the agent."""

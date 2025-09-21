@@ -13,16 +13,16 @@ class DeviceSyncResponse(BaseModel):
     """The result of attempting to sync the device."""
 
     cooldown_ends_at: datetime
-    """Timestamp of when the cooldown will end"""
+    """Timestamp of when the cooldown will end."""
 
     in_cooldown: bool
-    """Whether the device is currently in cooldown"""
+    """Whether the device is currently in cooldown."""
 
     last_attempted_sync_at: datetime
-    """Timestamp of when the last _attempted_ sync occurred"""
+    """Timestamp of when the last _attempted_ sync occurred."""
 
     last_synced_at: datetime
-    """Timestamp of when the device was last synced"""
+    """Timestamp of when the device was last synced."""
 
     message: str
     """The message of the result."""
