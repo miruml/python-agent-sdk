@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1 (2025-09-21)
+
+Full Changelog: [v0.2.0...v0.2.1](https://github.com/miruml/python-agent-sdk/compare/v0.2.0...v0.2.1)
+
+### Chores
+
+* **api:** update route + struct descriptions ([49c2e88](https://github.com/miruml/python-agent-sdk/commit/49c2e88e03ca3d4ed176cf11d0d5ac46129ae2e4))
+
 ## 0.2.0 (2025-09-21)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/miruml/python-agent-sdk/compare/v0.1.0...v0.2.0)
