@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.2.0 (2025-09-21)
+
+Full Changelog: [v0.1.0...v0.2.0](https://github.com/miruml/python-agent-sdk/compare/v0.1.0...v0.2.0)
+
+### Features
+
+* **api:** manual updates ([bdf6b7b](https://github.com/miruml/python-agent-sdk/commit/bdf6b7ba4e4ba8e8223f44a57c7abc7218a212a3))
+
+
+### Chores
+
+* do not install brew dependencies in ./scripts/bootstrap by default ([c2827c1](https://github.com/miruml/python-agent-sdk/commit/c2827c13c5dfb741e0e867f0be50f65f36f1b28a))
+* **internal:** update pydantic dependency ([bba9fec](https://github.com/miruml/python-agent-sdk/commit/bba9fec5673b0114012905c80dc80f9591bf66c8))
+* **types:** change optional parameter type from NotGiven to Omit ([4b8814d](https://github.com/miruml/python-agent-sdk/commit/4b8814d6ff030d908dfe217ad1b5ceee502ad76e))
+
 ## 0.1.0 (2025-09-07)
 
 Full Changelog: [v0.0.3...v0.1.0](https://github.com/miruml/python-agent-sdk/compare/v0.0.3...v0.1.0)

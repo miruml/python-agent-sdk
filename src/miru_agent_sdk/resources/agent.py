@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._types import Body, Query, Headers, NotGiven, not_given
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -48,9 +48,9 @@ class AgentResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentHealthResponse:
-        """Health"""
+        """Get the health of the agent"""
         return self._get(
             "/health",
             options=make_request_options(
@@ -67,9 +67,9 @@ class AgentResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentVersionResponse:
-        """Version"""
+        """Get the version of the agent"""
         return self._get(
             "/version",
             options=make_request_options(
@@ -107,9 +107,9 @@ class AsyncAgentResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentHealthResponse:
-        """Health"""
+        """Get the health of the agent"""
         return await self._get(
             "/health",
             options=make_request_options(
@@ -126,9 +126,9 @@ class AsyncAgentResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentVersionResponse:
-        """Version"""
+        """Get the version of the agent"""
         return await self._get(
             "/version",
             options=make_request_options(
