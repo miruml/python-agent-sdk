@@ -7,4 +7,4 @@ __all__ = ["AgentHealthResponse"]
 
 class AgentHealthResponse(BaseModel):
     status: str
-    """The status of the agent"""
+    """The status of the agent."""
