@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.2 (2025-10-18)
+
+Full Changelog: [v0.2.1...v0.2.2](https://github.com/miruml/python-agent-sdk/compare/v0.2.1...v0.2.2)
+
+### Chores
+
+* bump `httpx-aiohttp` version to 0.1.9 ([74ef8cb](https://github.com/miruml/python-agent-sdk/commit/74ef8cbc0912a8a5f32c62d1f5e2d2c9e6967358))
+* **internal:** detect missing future annotations with ruff ([5749281](https://github.com/miruml/python-agent-sdk/commit/5749281cfd3192819fdaa6faa3409932a6a8e15e))
+
 ## 0.2.1 (2025-09-21)
 
 Full Changelog: [v0.2.0...v0.2.1](https://github.com/miruml/python-agent-sdk/compare/v0.2.0...v0.2.1)
