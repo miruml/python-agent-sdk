@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Mapping
+from typing import TYPE_CHECKING, Any, Mapping
 from typing_extensions import Self, override
 
 import httpx
@@ -20,8 +20,8 @@ from ._types import (
     not_given,
 )
 from ._utils import is_given, get_async_library
+from ._compat import cached_property
 from ._version import __version__
-from .resources import agent, device
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError
 from ._base_client import (
@@ -30,15 +30,15 @@ from ._base_client import (
     AsyncAPIClient,
 )
 
+if TYPE_CHECKING:
+    from .resources import agent, device
+    from .resources.agent import AgentResource, AsyncAgentResource
+    from .resources.device import DeviceResource, AsyncDeviceResource
+
 __all__ = ["Timeout", "Transport", "ProxiesTypes", "RequestOptions", "Miru", "AsyncMiru", "Client", "AsyncClient"]
 
 
 class Miru(SyncAPIClient):
-    agent: agent.AgentResource
-    device: device.DeviceResource
-    with_raw_response: MiruWithRawResponse
-    with_streaming_response: MiruWithStreamedResponse
-
     # client options
     socket_path: str
 
@@ -90,10 +90,25 @@ class Miru(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.agent = agent.AgentResource(self)
-        self.device = device.DeviceResource(self)
-        self.with_raw_response = MiruWithRawResponse(self)
-        self.with_streaming_response = MiruWithStreamedResponse(self)
+    @cached_property
+    def agent(self) -> AgentResource:
+        from .resources.agent import AgentResource
+
+        return AgentResource(self)
+
+    @cached_property
+    def device(self) -> DeviceResource:
+        from .resources.device import DeviceResource
+
+        return DeviceResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> MiruWithRawResponse:
+        return MiruWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> MiruWithStreamedResponse:
+        return MiruWithStreamedResponse(self)
 
     @property
     @override
@@ -195,11 +210,6 @@ class Miru(SyncAPIClient):
 
 
 class AsyncMiru(AsyncAPIClient):
-    agent: agent.AsyncAgentResource
-    device: device.AsyncDeviceResource
-    with_raw_response: AsyncMiruWithRawResponse
-    with_streaming_response: AsyncMiruWithStreamedResponse
-
     # client options
     socket_path: str
 
@@ -251,10 +261,25 @@ class AsyncMiru(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.agent = agent.AsyncAgentResource(self)
-        self.device = device.AsyncDeviceResource(self)
-        self.with_raw_response = AsyncMiruWithRawResponse(self)
-        self.with_streaming_response = AsyncMiruWithStreamedResponse(self)
+    @cached_property
+    def agent(self) -> AsyncAgentResource:
+        from .resources.agent import AsyncAgentResource
+
+        return AsyncAgentResource(self)
+
+    @cached_property
+    def device(self) -> AsyncDeviceResource:
+        from .resources.device import AsyncDeviceResource
+
+        return AsyncDeviceResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncMiruWithRawResponse:
+        return AsyncMiruWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncMiruWithStreamedResponse:
+        return AsyncMiruWithStreamedResponse(self)
 
     @property
     @override
@@ -356,27 +381,79 @@ class AsyncMiru(AsyncAPIClient):
 
 
 class MiruWithRawResponse:
+    _client: Miru
+
     def __init__(self, client: Miru) -> None:
-        self.agent = agent.AgentResourceWithRawResponse(client.agent)
-        self.device = device.DeviceResourceWithRawResponse(client.device)
+        self._client = client
+
+    @cached_property
+    def agent(self) -> agent.AgentResourceWithRawResponse:
+        from .resources.agent import AgentResourceWithRawResponse
+
+        return AgentResourceWithRawResponse(self._client.agent)
+
+    @cached_property
+    def device(self) -> device.DeviceResourceWithRawResponse:
+        from .resources.device import DeviceResourceWithRawResponse
+
+        return DeviceResourceWithRawResponse(self._client.device)
 
 
 class AsyncMiruWithRawResponse:
+    _client: AsyncMiru
+
     def __init__(self, client: AsyncMiru) -> None:
-        self.agent = agent.AsyncAgentResourceWithRawResponse(client.agent)
-        self.device = device.AsyncDeviceResourceWithRawResponse(client.device)
+        self._client = client
+
+    @cached_property
+    def agent(self) -> agent.AsyncAgentResourceWithRawResponse:
+        from .resources.agent import AsyncAgentResourceWithRawResponse
+
+        return AsyncAgentResourceWithRawResponse(self._client.agent)
+
+    @cached_property
+    def device(self) -> device.AsyncDeviceResourceWithRawResponse:
+        from .resources.device import AsyncDeviceResourceWithRawResponse
+
+        return AsyncDeviceResourceWithRawResponse(self._client.device)
 
 
 class MiruWithStreamedResponse:
+    _client: Miru
+
     def __init__(self, client: Miru) -> None:
-        self.agent = agent.AgentResourceWithStreamingResponse(client.agent)
-        self.device = device.DeviceResourceWithStreamingResponse(client.device)
+        self._client = client
+
+    @cached_property
+    def agent(self) -> agent.AgentResourceWithStreamingResponse:
+        from .resources.agent import AgentResourceWithStreamingResponse
+
+        return AgentResourceWithStreamingResponse(self._client.agent)
+
+    @cached_property
+    def device(self) -> device.DeviceResourceWithStreamingResponse:
+        from .resources.device import DeviceResourceWithStreamingResponse
+
+        return DeviceResourceWithStreamingResponse(self._client.device)
 
 
 class AsyncMiruWithStreamedResponse:
+    _client: AsyncMiru
+
     def __init__(self, client: AsyncMiru) -> None:
-        self.agent = agent.AsyncAgentResourceWithStreamingResponse(client.agent)
-        self.device = device.AsyncDeviceResourceWithStreamingResponse(client.device)
+        self._client = client
+
+    @cached_property
+    def agent(self) -> agent.AsyncAgentResourceWithStreamingResponse:
+        from .resources.agent import AsyncAgentResourceWithStreamingResponse
+
+        return AsyncAgentResourceWithStreamingResponse(self._client.agent)
+
+    @cached_property
+    def device(self) -> device.AsyncDeviceResourceWithStreamingResponse:
+        from .resources.device import AsyncDeviceResourceWithStreamingResponse
+
+        return AsyncDeviceResourceWithStreamingResponse(self._client.device)
 
 
 Client = Miru

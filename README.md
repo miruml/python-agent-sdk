@@ -11,7 +11,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The REST API documentation can be found on [docs.miruml.com](https://docs.miruml.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.mirurobotics.com](https://docs.mirurobotics.com). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -223,9 +223,9 @@ device = response.parse()  # get the object that `device.retrieve()` would have 
 print(device.id)
 ```
 
-These methods return an [`APIResponse`](https://github.com/miruml/python-agent-sdk/tree/main/src/miru_agent_sdk/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/mirurobotics/python-agent-sdk/tree/main/src/miru_agent_sdk/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/miruml/python-agent-sdk/tree/main/src/miru_agent_sdk/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/mirurobotics/python-agent-sdk/tree/main/src/miru_agent_sdk/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -329,7 +329,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/miruml/python-agent-sdk/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/mirurobotics/python-agent-sdk/issues) with questions, bugs, or suggestions.
 
 ### Determining the installed version
 

@@ -5,16 +5,18 @@ description = "The official Python library for the miru API"
 dynamic = ["readme"]
 license = "MIT"
 authors = [
-{ name = "Miru", email = "ben@miruml.com" },
+{ name = "Miru", email = "ben@mirurobotics.com" },
 ]
+
 dependencies = [
-    "httpx>=0.23.0, <1",
-    "pydantic>=1.9.0, <3",
-    "typing-extensions>=4.10, <5",
-    "anyio>=3.5.0, <5",
-    "distro>=1.7.0, <2",
-    "sniffio",
+  "httpx>=0.23.0, <1",
+  "pydantic>=1.9.0, <3",
+  "typing-extensions>=4.10, <5",
+  "anyio>=3.5.0, <5",
+  "distro>=1.7.0, <2",
+  "sniffio",
 ]
+
 requires-python = ">= 3.9"
 classifiers = [
   "Typing :: Typed",
@@ -24,6 +26,7 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Operating System :: OS Independent",
   "Operating System :: POSIX",
   "Operating System :: MacOS",
@@ -34,8 +37,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/miruml/python-agent-sdk"
-Repository = "https://github.com/miruml/python-agent-sdk"
+Homepage = "https://github.com/mirurobotics/python-agent-sdk"
+Repository = "https://github.com/mirurobotics/python-agent-sdk"
 
 [project.optional-dependencies]
 aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.9"]
@@ -45,7 +48,7 @@ managed = true
 # version pins are in requirements-dev.lock
 dev-dependencies = [
     "pyright==1.1.399",
-    "mypy",
+    "mypy==1.17",
     "respx",
     "pytest",
     "pytest-asyncio",
@@ -123,7 +126,7 @@ path = "README.md"
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
 # replace relative links with absolute links
 pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
-replacement = '[\1](https://github.com/miruml/python-agent-sdk/tree/main/\g<2>)'
+replacement = '[\1](https://github.com/mirurobotics/python-agent-sdk/tree/main/\g<2>)'
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
