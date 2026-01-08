@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.2.2 (2026-01-08)
+
+Full Changelog: [v0.2.1...v0.2.2](https://github.com/mirurobotics/python-agent-sdk/compare/v0.2.1...v0.2.2)
+
+### Bug Fixes
+
+* **client:** close streams without requiring full consumption ([842ca7c](https://github.com/mirurobotics/python-agent-sdk/commit/842ca7c72218a02fa2249ee68fbcc1645a2193d5))
+* compat with Python 3.14 ([ef95edb](https://github.com/mirurobotics/python-agent-sdk/commit/ef95edbaa00a842f9d40c30d329f6398851582d0))
+* **compat:** update signatures of `model_dump` and `model_dump_json` for Pydantic v1 ([d607c00](https://github.com/mirurobotics/python-agent-sdk/commit/d607c004fb803cd532fa344b44ab3b3404bdeb6e))
+
+
+### Chores
+
+* bump `httpx-aiohttp` version to 0.1.9 ([74ef8cb](https://github.com/mirurobotics/python-agent-sdk/commit/74ef8cbc0912a8a5f32c62d1f5e2d2c9e6967358))
+* **internal/tests:** avoid race condition with implicit client cleanup ([2bd8067](https://github.com/mirurobotics/python-agent-sdk/commit/2bd80673bbdb96bbfd82e93a1e927542211bf890))
+* **internal:** detect missing future annotations with ruff ([5749281](https://github.com/mirurobotics/python-agent-sdk/commit/5749281cfd3192819fdaa6faa3409932a6a8e15e))
+* **internal:** grammar fix (it's -&gt; its) ([3d0e23a](https://github.com/mirurobotics/python-agent-sdk/commit/3d0e23a5a6b703718047bf698ad41f154133abcc))
+* **package:** drop Python 3.8 support ([5544c35](https://github.com/mirurobotics/python-agent-sdk/commit/5544c352c00a7c5d1ec53a90c0719ce96fd5b846))
+
+
+### Refactors
+
+* **api:** migrate api domain from miruml to mirurobotics ([9f29446](https://github.com/mirurobotics/python-agent-sdk/commit/9f29446fe63b2b68e973fed4ff946a22d8eb5e07))
+
 ## 0.2.1 (2025-09-21)
 
 Full Changelog: [v0.2.0...v0.2.1](https://github.com/miruml/python-agent-sdk/compare/v0.2.0...v0.2.1)
